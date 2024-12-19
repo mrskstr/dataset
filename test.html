@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter with Animation</title>
+    <style>
+        .counter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .counter-container button {
+            background-color: #6BCB77;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .counter-container input {
+            width: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .animation-text {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter-container">
+        <button id="minusButton">-</button>
+        <input id="counterDisplay" type="text" value="0">
+        <button id="plusButton">+</button>
+        <span id="animationText" class="animation-text"></span>
+    </div>
+
+    <script>
+        let count = 0;
+        const counterDisplay = document.getElementById('counterDisplay');
+        const animationText = document.getElementById('animationText');
+
+        document.getElementById('minusButton').addEventListener('click', () => updateCount(-1));
+        document.getElementById('plusButton').addEventListener('click', () => updateCount(1));
+
+        function updateCount(delta) {
+            count = Math.max(0, count + delta); // Ensure count is not less than 0
+            counterDisplay.value = count;
+
+            // Show animation based on the action (Added or Removed)
+            const text = delta > 0 ? 'Product Added' : 'Product Removed';
+            const color = delta > 0 ? '#6BCB77' : '#FF6B6B';
+            showAnimation(text, color);
+        }
+
+        function showAnimation(text, color) {
+            animationText.textContent = text;
+            animationText.style.color = color;
+
+            // Animate: Fade in and move upward
+            animationText.style.opacity = '1';
+            animationText.style.transform = 'translate(-50%, -30px)';
+            
+            // After animation completes, reset opacity and position
+            setTimeout(() => {
+                animationText.style.opacity = '0';
+                animationText.style.transform = 'translate(-50%, -20px)';
+            }, 500); // Wait for animation to complete (500ms)
+        }
+    </script>
+
+</body>
+</html>
